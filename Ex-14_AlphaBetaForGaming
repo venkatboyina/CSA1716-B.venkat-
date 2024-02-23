@@ -1,0 +1,41 @@
+import random
+def alphabeta(guess, depth, alpha, beta, is_maximizing):
+    if depth == 0:
+        return guess
+
+    if is_maximizing:
+        best_guess = float('-inf')
+        for new_guess in range(1, 11):
+            guess = alphabeta(new_guess, depth - 1, alpha, beta, False)
+            best_guess = max(best_guess, guess)
+            alpha = max(alpha, guess)
+            if beta <= alpha:
+                break
+        return best_guess
+    else:
+        best_guess = float('inf')
+        for new_guess in range(1, 11):
+            guess = alphabeta(new_guess, depth - 1, alpha, beta, True)
+            best_guess = min(best_guess, guess)
+            beta = min(beta, guess)
+            if beta <= alpha:
+                break
+        return best_guess
+
+def main():
+    print("Welcome to the Number Guessing Game!")
+    secret_number = random.randint(1,10)
+    max_depth = 5
+    while True:
+        guess = int(input("Enter your guess (1-10): "))
+
+        if guess < secret_number:
+            print("Too low!")
+        elif guess > secret_number:
+            print("Too high!")
+        else:
+            print("Congratulations! You guessed the secret number!")
+            break
+
+if __name__ == "__main__":
+    main()
